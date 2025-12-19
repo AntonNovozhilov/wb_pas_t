@@ -5,11 +5,33 @@ import yaml
 
 log = logging.getLogger(__file__)
 
+class Client(BaseModel):
+    """Клиент для запросов."""
 
+    url: str
+    request_text: str
+
+
+class Excel(BaseModel):
+    """Описание колонок в ексель файле."""
+
+    columns: list[str]
+
+
+class ExcelFilter(BaseModel):
+    """Настройки фильтрации для отдельного файла."""
+
+    raiting: float
+    cost: int
+    made_in: str
 
 
 class Config(BaseModel):
     """Настройка приложения."""
+
+    client: Client
+    excel: Excel
+    excel_filter: ExcelFilter
 
     @classmethod
     def read_config(cls) -> "Config":
@@ -31,4 +53,4 @@ class Config(BaseModel):
 
         
 
-settings = Config()
+settings = Config.read_config()
